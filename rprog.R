@@ -38,13 +38,12 @@ w <-read.csv("assists_wins.csv")
 w
 plot(w$Assists,
      w$Goals,
-     main="Scatterplot example",
-     xlab="car weight",
-     ylab="miles per gallon",
+     main="Comparing goals and passes",
+     xlab="Assists",
+     ylab="Goals",
      pch=19,
      cex=w$Wins/9,
      cex.axis=1.5,
-     cex.label=2,
      col=rainbow(10))
 
 color.function <- colorRampPalette( c( "#CCCCCC" , "#104E8B" ) )

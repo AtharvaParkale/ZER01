@@ -1,31 +1,14 @@
 ---
-title: "ZERO1"
+title: "Premier League Dashboard"
 output: 
   flexdashboard::flex_dashboard:
     orientation: column
 runtime: shiny
 ---
-<style>
-.navbar {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: block;
-  position: fixed;
-  width: 150px; 
-  background:black;
-}
-body {
-          margin-left: 200px; 
-          padding-top:0px
-}
-</style>
-
-
 ```{r setup, include=FALSE}
 library(flexdashboard)
-
 ```
+
     Goals
 ================================
 Column {data-width=400}
@@ -33,15 +16,14 @@ Column {data-width=400}
 ### Number of goals by Player
 ```{r}
 library(tidyverse)
-g<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleaguegoals.csv")
+g<-read.csv("C:\\Users\\aayus\\Documents\\premierleaguegoals.csv")
 library(DT)
 datatable(g,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
 ### Number of goals by Club
 ```{r}
 library(tidyverse)
-#w<-read.csv("C:\\Users\\aayus\\Documents\\clubgoals.csv")
-w<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubgoals.csv")
+w<-read.csv("C:\\Users\\aayus\\Documents\\clubgoals.csv")
 library(DT)
 datatable(w,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
@@ -54,7 +36,7 @@ Column {.tabset .tabset-fade data-width=600}
 ```{r}
 
 #goalsconceded
-df<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/pl_20-21.csv")
+df<-read.csv("C:\\Users\\aayus\\Documents\\pl_20-21.csv")
 library(dplyr)
 defenders<-subset(df,Position=="Defender")
 defenders<-defenders%>%
@@ -70,7 +52,7 @@ legend("bottomleft",defenders$Name, cex = 0.4, fill =coul,inset=c(-0.40,0))
 
 ### Number of Goals by club
 ```{r}
-cg=read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubgoals.csv")
+cg=read.csv("C:\\Users\\aayus\\Documents\\clubgoals.csv")
 ppercent<- paste(round(100*cg$Stat/sum(cg$Stat), 1),"%")
 library(RColorBrewer)
 coul <- brewer.pal(length(cg$Club), "Paired") 
@@ -81,7 +63,7 @@ legend("bottomleft",cg$Club, cex = 0.6, fill =coul,inset=c(-0.35,0))
 
 ### Number of goals by player  
 ```{r}
-goals<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleaguegoals.csv")
+goals<-read.csv("C:\\Users\\aayus\\Documents\\premierleaguegoals.csv")
 par(mar=c(8,5,3,1),xpd=TRUE)
 barplot(goals$Stat,main="Goals in Premier league 2020/21",names.arg=goals$Player,las=2,col="#32a87d",ylab = "Number of goals",cex.names = 0.75,ylim=c(0,25))
 ```
@@ -93,14 +75,14 @@ Column {data-width=400}
 ### Number of Shots by Player
 ```{r}
 library(tidyverse)
-g<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleagueshots.csv")
+g<-read.csv("C:\\Users\\aayus\\Documents\\premierleagueshots.csv")
 library(DT)
 datatable(g,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
 ### Number of Shots by Club
 ```{r}
 library(tidyverse)
-w<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubshots.csv")
+w<-read.csv("C:\\Users\\aayus\\Documents\\clubshots.csv")
 library(DT)
 datatable(w,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
@@ -111,7 +93,7 @@ Column {.tabset .tabset-fade data-width=600}
 ### Goals correlation to Shots
 
 ```{r}
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/ShotsGoals.csv")
+wt<-read.csv("C:\\Users\\aayus\\Documents\\ShotsGoals.csv")
 paste("Correlation:",round(cor(wt$Goals, as.integer(gsub(",","",wt$Shots))), 2))
 # Creating the plot
 plot(as.integer(gsub(",","",wt$Shots)),wt$Goals ,ylab = "Goals",xlab = "Shots",main = "Relation between number of Shots and Goals", pch = 20, col = "darkblue")
@@ -122,7 +104,7 @@ abline(lm (wt$Goals~as.integer(gsub(",","",wt$Shots))), col = "maroon", lwd = 3)
 
 ### Number of Shots by club
 ```{r}
-cs<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubshots.csv")
+cs<-read.csv("C:\\Users\\aayus\\Documents\\clubshots.csv")
 ppercent<- paste(round(100*cs$Stat/sum(cs$Stat), 1),"%")
 library(RColorBrewer)
 coul <- brewer.pal(length(cs$Stat), "Set3") 
@@ -133,12 +115,12 @@ legend("bottomleft",cs$Club, cex = 0.6, fill =coul,inset = c(- 0.42, 0))
 
 ### Number of Shots by player  
 ```{r}
-shots<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleagueshots.csv")
+shots<-read.csv("C:\\Users\\aayus\\Documents\\premierleagueshots.csv")
 par(mar=c(8,5,3,1),xpd=TRUE)
 barplot(shots$Stat,main="Shots in Premier league 2020/21",names.arg=shots$Player,las=2,col="#32a87d",ylab = "Number of shots",cex.names = 0.75)
 ```
 
-    Touches
+    Touches and Player Statistics
 ================================
 
 Column {data-width=400}
@@ -147,14 +129,14 @@ Column {data-width=400}
 ### Number of Touches by Player
 ```{r}
 library(tidyverse)
-g<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleaguetouches.csv")
+g<-read.csv("C:\\Users\\aayus\\Documents\\premierleaguetouches.csv")
 library(DT)
 datatable(g,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
 ### Number of Touches by Club
 ```{r}
 library(tidyverse)
-w<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubtouches.csv")
+w<-read.csv("C:\\Users\\aayus\\Documents\\clubtouches.csv")
 library(DT)
 datatable(w,options = list(lengthChange = FALSE,searching=FALSE,paging=FALSE,info=FALSE))
 ```
@@ -165,7 +147,7 @@ Column {.tabset .tabset-fade data-width=600}
 
 ```{r}
 #radar chart
-df2<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/football.csv")
+df2<-read.csv("C:\\Users\\aayus\\Downloads\\football.csv")
 library(fmsb)
 pl<-subset(df2,Player.Name=="Harry Kane")
 pl3<-subset(df2,Player.Name=="Bruno Fernandes")
@@ -187,7 +169,7 @@ legend("topleft",legend = c("Harry Kane","Mohamed Salah","Bruno Fernandes"), bty
 
 ### Number of touches by player
 ```{r}
-touches<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleaguetouches.csv")
+touches<-read.csv("C:\\Users\\aayus\\Documents\\premierleaguetouches.csv")
 par(mar=c(8,5,3,1),xpd=TRUE)
 barplot(as.integer(gsub(",","",touches$Stat)),main="Touches in Premier league 2020/21",names.arg=touches$Player,las=2,col="#32a87d",ylab = "Number of touches",cex.names = 0.75)
 
@@ -196,7 +178,7 @@ barplot(as.integer(gsub(",","",touches$Stat)),main="Touches in Premier league 20
 ### Number of touches by club
 
 ```{r}
-touchesclub<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/clubtouches.csv")
+touchesclub<-read.csv("C:\\Users\\aayus\\Documents\\clubtouches.csv")
 ppercent<- paste(round(100*as.integer(gsub(",","",touchesclub$Stat))/sum(as.integer(gsub(",","",touchesclub$Stat))), 1),"%")
 library(RColorBrewer)
 coul <- brewer.pal(length(touchesclub$Stat), "Set3") 
@@ -215,7 +197,7 @@ Column {.tabset .tabset-fade data-width=1000}
 
 #correlation of wins and Shots
 
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsShots.csv")
+wt<-read.csv("C:\\Users\\aayus\\Documents\\WinsShots.csv")
 paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Shots))), 2))
 
 # Creating the plot
@@ -231,7 +213,7 @@ abline(lm (wt$Wins~as.integer(gsub(",","",wt$Shots))), col = "maroon", lwd = 3)
 ```{r}
 #correlation of wins and touches
 
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/Winstouches.csv")
+wt<-read.csv("C:\\Users\\aayus\\Documents\\Winstouches.csv")
 paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Touches))), 2))
 # Creating the plot
 plot(as.integer(gsub(",","",wt$Touches)),wt$Wins ,ylab = "Wins",xlab = "Touches",main = "Relation between number of Touches and Wins", pch = 20, col = "darkblue")
@@ -244,7 +226,7 @@ abline(lm (wt$Wins~as.integer(gsub(",","",wt$Touches))), col = "maroon", lwd = 3
 
 ### Tackles
 ```{r}
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsTackles.csv")
+wt<-read.csv("C:\\Users\\aayus\\Documents\\WinsTackles.csv")
 paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Tackles))), 2))
 # Creating the plot
 plot(wt$Tackles,as.integer(gsub(",","",wt$Wins)) ,xlab = "Tackles",ylab = "Wins",main = "Relation between number of Tackles and Wins", pch = 20, col = "darkblue")
@@ -252,266 +234,3 @@ plot(wt$Tackles,as.integer(gsub(",","",wt$Wins)) ,xlab = "Tackles",ylab = "Wins"
 abline(lm(wt$Wins~as.integer(gsub(",","",wt$Tackles))), col = "maroon", lwd = 3)
 # Pearson correlation
 ```
-
-# Passes
-
-Column {data-width=400}
------------------------------------------------------------------------
-
-### Data for individual player
-
-```{r}
-
-passes <-read.csv("passes1.csv")
-library(DT)
-datatable(passes)
-```
-### Data for top 10 teams
-
-```{r}
-
-w <-read.csv("passes_wins.csv")
-library(DT)
-
-# datatable(passes, options=list(
-      # pageLength = 20,
-      # lengthMenu = c(2, 12, 18)
-       #))%>%
-     # formatStyle( 0, target= 'row',color = 'black', fontWeight ='bold', lineHeight='100%')
-
-datatable(w)
-```
-
-Column {.tabset .tabset-fade data-width=600}
------------------------------------------------------------------------
-
-### Bar graph
-
-```{r}
-
-passes <-read.csv("passes1.csv")
-
-midpts<-barplot(passes$Stat,ylab="Total passes",col=rainbow(50),main="Stats for passes",cex.names = 0.8,las = 2,ylim = c(0, 1000))
-
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-
-text(passes$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -20,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
-
-```
-
-### Pie chart
-
-```{r}
-passes <-read.csv("passes1.csv")
-w <-read.csv("passes_wins.csv")
-piepercent<- round(100*w$Passes/sum(w$Passes), 1)
-
-pie(w$Passes,labels =w$Club,col=rainbow(10),main="Total passes by each club",cex=0.7)
-
-legend("topright", legend =w$Passes, cex = 0.6,fill = rainbow(10))
-
-```
-
-### Correlation
-
-```{r}
-w <-read.csv("passes_wins.csv")
-
-# Data generation
-set.seed(1)
-x <- w$Passes
-y <- w$Wins
-
-# Creating the plot
-plot(x, y,xlab = "Passes",ylab = "Wins",main = "Relation between number of Passes and Wins", pch = 19, col = "blue")
-
-# Regression line
-abline(lm(y ~ x), col = "red", lwd = 3)
-
-# Pearson correlation
-text(paste("Correlation:", round(cor(x, y), 2)), x = 17000, y = 25)
-
-```
-
-# Assists
-Column {data-width=400}
------------------------------------------------------------------------
-
-### Data for individual player
-
-```{r}
-
-assists <-read.csv("assists1.csv")
-library(DT)
-
-
-datatable(assists)
-
-```
-### Data for top 10 teams
-
-```{r}
-w <-read.csv("assists_wins.csv")
-library(DT)
-
-datatable(w)
-
-```
-
-Column {.tabset .tabset-fade data-width=600}
------------------------------------------------------------------------
-
-### Bar graph
-
-```{r}
-
-assists <-read.csv("assists1.csv")
-pal <- colorRampPalette(colors = c("blue", "lightblue"))(10)
-
-midpts<-barplot(assists$Stat,ylab="Total assists",col=pal,main="Stats for Assists",cex.names = 0.8,las = 2,ylim = c(0, 20))
-
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-
-text(assists$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
-
-```
-
-### Scatter Plot
-
-```{r}
-w <-read.csv("assists_wins.csv")
-plot(w$Assists,
-     w$Goals,
-     main="Comparing Goals and Assists",
-     xlab="Assists",
-     ylab="Goals",
-     pch=19,
-     cex=w$Wins/9,
-     cex.axis=1.5,
-     col=rainbow(10))
-legend("bottomright", legend =w$Club, cex = 0.6,fill = rainbow(10))
-
-```
-
-### Correlation
-
-```{r}
-w <-read.csv("assists_wins.csv")
-
-# Data generation
-set.seed(1)
-x <- w$Assists
-y <- w$Wins
-
-# Creating the plot
-plot(x, y,xlab = "Assists",ylab = "Wins",main = "Relation between number of Assists and Wins", pch = 19, col = "blue")
-
-# Regression line
-abline(lm(y ~ x), col = "red", lwd = 3)
-
-# Pearson correlation
-text(paste("Correlation:", round(cor(x, y), 2)), x = 60, y = 25)
-
-```
-
-# Fouls
-
-Column {data-width=400}
------------------------------------------------------------------------
-
-### Data for individual player
-
-```{r}
-
-fouls <-read.csv("fouls1.csv")
-library(DT)
-
-
-datatable(fouls)
-
-```
-### Data for top 10 teams
-
-```{r}
-w <-read.csv("fouls_cards.csv")
-library(DT)
-
-datatable(w)
-```
-
-Column {.tabset .tabset-fade data-width=600}
------------------------------------------------------------------------
-
-### Bar graph
-
-```{r}
-
-fouls <-read.csv("fouls1.csv")
-pal <- colorRampPalette(colors = c("green", "lightgreen"))(10)
-
-midpts<-barplot(fouls$Stat,ylab="Total fouls",col=pal,main="Stats for fouls",cex.names = 0.8,las = 2,ylim = c(0, 100))
-
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-
-text(fouls$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
-
-```
-
-### Stacked Bar chart
-
-```{r}
-w <-read.csv("fouls_cards.csv")
-colors = c("red","yellow")
-cards <- c("Red","Yellow")
-Values <- matrix(c(2,1,3,1,5,7,6,1,3,8,5,3,1,2,8,7,4,8,7,9), nrow = 2, ncol = 10, byrow = TRUE)
-barplot(Values, main = "Distribution of red and yellow cards", ylab = "Cards", col = colors,ylim = c(0,20))
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-text(w$Club,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
-
-legend("topleft", cards, cex = 1, fill = colors)
-
-```
-
-### Pie Chart
-
-```{r}
-fouls <-read.csv("fouls1.csv")
-w <-read.csv("fouls_cards.csv")
-piepercent<- round(100*w$Passes/sum(w$Passes), 1)
-
-pie(w$Fouls,labels =w$Club,col=rainbow(10),main="Total fouls by each club in percentage",cex=0.7)
-
-legend("topright", legend =w$Fouls, cex = 0.6,fill = rainbow(10))
-
-```
-
-
-
