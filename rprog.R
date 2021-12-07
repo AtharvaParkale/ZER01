@@ -63,3 +63,31 @@ defenders<-defenders%>%
 defenders<- head(defenders,10)
 defenders["cpg"]<-defenders$Goals.Conceded/defenders$Appearances
 plot(defenders$Clean.sheets,defenders$cpg,ylab='Goals conceded per game',cex=defenders$Tackles/50, main ='Goals conceded per game vs Clean sheets',xlab="Clean Sheets",col="#b77ff0",pch=20)
+
+x <- c(94, 62, 10, 53)
+names <- c("Apple", "Samsung", "Nokia", "Motorola")
+pie(x,names)
+
+
+
+#Pie chart with colors
+colour<-c("Red","Blue","Green","Yellow")
+pie(x,names,col=colour,main="Revenue generated in USD")
+
+
+
+pie(x,names,col=rainbow(length(x)),main="Revenue generated in USD")
+
+
+
+
+#pie chart with percentage and legend
+piepercent<- round(100*x/sum(x), 1)
+
+
+
+pie(x, labels = piepercent, main = "Revenue generated in USD",col = rainbow(length(x)))
+
+
+
+legend("topright", legend = names, cex = 0.8,fill = rainbow(length(x)))

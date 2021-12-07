@@ -14,7 +14,9 @@ runtime: shiny
   position: fixed;
   width: 150px; 
   background:black;
+  font-weight:700;
 }
+
 body {
           margin-left: 200px; 
           padding-top:0px
@@ -86,6 +88,17 @@ par(mar=c(8,5,3,1),xpd=TRUE)
 barplot(goals$Stat,main="Goals in Premier league 2020/21",names.arg=goals$Player,las=2,col="#32a87d",ylab = "Number of goals",cex.names = 0.75,ylim=c(0,25))
 ```
 
+### Correlation
+```{r}
+wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsTackles.csv")
+paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Tackles))), 2))
+# Creating the plot
+plot(wt$Tackles,as.integer(gsub(",","",wt$Wins)) ,xlab = "Tackles",ylab = "Wins",main = "Relation between number of Tackles and Wins", pch = 20, col = "darkblue")
+# Regression line
+abline(lm(wt$Wins~as.integer(gsub(",","",wt$Tackles))), col = "maroon", lwd = 3)
+# Pearson correlation
+```
+
     Shots
 ================================
 Column {data-width=400}
@@ -136,6 +149,23 @@ legend("bottomleft",cs$Club, cex = 0.6, fill =coul,inset = c(- 0.42, 0))
 shots<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/premierleagueshots.csv")
 par(mar=c(8,5,3,1),xpd=TRUE)
 barplot(shots$Stat,main="Shots in Premier league 2020/21",names.arg=shots$Player,las=2,col="#32a87d",ylab = "Number of shots",cex.names = 0.75)
+```
+
+### Correlation
+
+```{r}
+
+#correlation of wins and Shots
+
+wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsShots.csv")
+paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Shots))), 2))
+
+# Creating the plot
+plot(as.integer(gsub(",","",wt$Shots)),wt$Wins ,ylab = "Wins",xlab = "Shots",main = "Relation between number of Shots and Wins", pch = 20, col = "darkblue")
+
+# Regression line
+abline(lm (wt$Wins~as.integer(gsub(",","",wt$Shots))), col = "maroon", lwd = 3)
+
 ```
 
     Touches
@@ -204,29 +234,7 @@ par(mar=c(5,8,2,3),xpd=TRUE)
 pie(as.integer(gsub(",","",touchesclub$Stat)),labels=ppercent,main="Touches by Club",col=coul,clockwise = TRUE,radius=1)
 legend("bottomleft",touchesclub$Club, cex = 0.6, fill =coul,inset = c(- 0.40, 0))
 ```
-    
-    Correlation with Wins
-================================
-Column {.tabset .tabset-fade data-width=1000}
------------------------------------------------------------------------
-### Shots
-
-```{r}
-
-#correlation of wins and Shots
-
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsShots.csv")
-paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Shots))), 2))
-
-# Creating the plot
-plot(as.integer(gsub(",","",wt$Shots)),wt$Wins ,ylab = "Wins",xlab = "Shots",main = "Relation between number of Shots and Wins", pch = 20, col = "darkblue")
-
-# Regression line
-abline(lm (wt$Wins~as.integer(gsub(",","",wt$Shots))), col = "maroon", lwd = 3)
-
-```
-
-### Touches
+### Correlation
 
 ```{r}
 #correlation of wins and touches
@@ -241,18 +249,7 @@ abline(lm (wt$Wins~as.integer(gsub(",","",wt$Touches))), col = "maroon", lwd = 3
 
 # Pearson correlation
 ```
-
-### Tackles
-```{r}
-wt<-read.csv("C:/Users/athar/Desktop/ZER01/Aayush code/WinsTackles.csv")
-paste("Correlation:", round(cor(wt$Wins, as.integer(gsub(",","",wt$Tackles))), 2))
-# Creating the plot
-plot(wt$Tackles,as.integer(gsub(",","",wt$Wins)) ,xlab = "Tackles",ylab = "Wins",main = "Relation between number of Tackles and Wins", pch = 20, col = "darkblue")
-# Regression line
-abline(lm(wt$Wins~as.integer(gsub(",","",wt$Tackles))), col = "maroon", lwd = 3)
-# Pearson correlation
-```
-
+    
 # Passes
 
 Column {data-width=400}
@@ -291,7 +288,7 @@ Column {.tabset .tabset-fade data-width=600}
 
 passes <-read.csv("passes1.csv")
 
-midpts<-barplot(passes$Stat,ylab="Total passes",col=rainbow(50),main="Stats for passes",cex.names = 0.8,las = 2,ylim = c(0, 1000))
+midpts<-barplot(passes$Stat,ylab="Total passes",col=rgb(0.8,0.1,0.1,0.6),main="Stats for passes",cex.names = 0.8,las = 2,ylim = c(0, 1000))
 
 grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
 
@@ -310,12 +307,19 @@ text(passes$Player,
 
 ```{r}
 passes <-read.csv("passes1.csv")
+#w <-read.csv("passes_wins.csv")
+#piepercent<- round(100*w$Passes/sum(w$Passes), 1)
+
+
+#legend("topright", legend =w$Passes, cex = 0.6,fill = rainbow(10))
+
+
+
 w <-read.csv("passes_wins.csv")
 piepercent<- round(100*w$Passes/sum(w$Passes), 1)
-
-pie(w$Passes,labels =w$Club,col=rainbow(10),main="Total passes by each club",cex=0.7)
-
-legend("topright", legend =w$Passes, cex = 0.6,fill = rainbow(10))
+#pie(w$Fouls, labels = piepercent, main = "Total fouls by each club in percentage",col = rainbow(10))
+pie(w$Passes,labels =piepercent,col=rainbow(10),main="Total passes by each club")
+legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
 
 ```
 
@@ -373,9 +377,9 @@ Column {.tabset .tabset-fade data-width=600}
 ```{r}
 
 assists <-read.csv("assists1.csv")
-pal <- colorRampPalette(colors = c("blue", "lightblue"))(10)
 
-midpts<-barplot(assists$Stat,ylab="Total assists",col=pal,main="Stats for Assists",cex.names = 0.8,las = 2,ylim = c(0, 20))
+
+midpts<-barplot(assists$Stat,ylab="Total assists",col=rgb(0.8,0.1,0.1,0.6),main="Stats for Assists",cex.names = 0.8,las = 2,ylim = c(0, 20))
 
 grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
 
@@ -461,9 +465,9 @@ Column {.tabset .tabset-fade data-width=600}
 ```{r}
 
 fouls <-read.csv("fouls1.csv")
-pal <- colorRampPalette(colors = c("green", "lightgreen"))(10)
 
-midpts<-barplot(fouls$Stat,ylab="Total fouls",col=pal,main="Stats for fouls",cex.names = 0.8,las = 2,ylim = c(0, 100))
+
+midpts<-barplot(fouls$Stat,ylab="Total fouls",col=rgb(0.8,0.1,0.1,0.6),main="Stats for fouls",cex.names = 0.8,las = 2,ylim = c(0, 100))
 
 grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
 
@@ -505,13 +509,9 @@ legend("topleft", cards, cex = 1, fill = colors)
 ```{r}
 fouls <-read.csv("fouls1.csv")
 w <-read.csv("fouls_cards.csv")
-piepercent<- round(100*w$Passes/sum(w$Passes), 1)
+piepercent<- round(100*w$Fouls/sum(w$Fouls), 1)
+pie(w$Fouls, labels = piepercent, main = "Total fouls by each club in percentage",col = rainbow(10))
 
-pie(w$Fouls,labels =w$Club,col=rainbow(10),main="Total fouls by each club in percentage",cex=0.7)
-
-legend("topright", legend =w$Fouls, cex = 0.6,fill = rainbow(10))
+legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
 
 ```
-
-
-
