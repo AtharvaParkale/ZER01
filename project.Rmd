@@ -286,27 +286,43 @@ Column {.tabset .tabset-fade data-width=600}
 
 ```{r}
 
-passes <-read.csv("passes1.csv")
+#passes <-read.csv("passes1.csv")
 
-midpts<-barplot(passes$Stat,ylab="Total passes",col=rgb(0.8,0.1,0.1,0.6),main="Stats for passes",cex.names = 0.8,las = 2,ylim = c(0, 1000))
+#midpts<-barplot(passes$Stat,ylab="Total passes",col=rgb(0.8,0.1,0.1,0.6),main="Stats for passes",cex.names = 0.8,las = 2,ylim = c(0, 1000))
 
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
+#grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
 
-text(passes$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -20,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
+#text(passes$Player,
+     #x = midpts,
+     #offset = -0.1,
+     #y = -20,
+     #cex = 0.8,
+     #srt = 40,
+     #xpd = TRUE,
+     #pos = 2 )
+
+library(plotly)
+
+fig <- plot_ly(
+  x = c(passes$Player),
+  y = c(passes$Stat),
+  name = "SF Zoo",
+  type = "bar"
+  
+)
+
+fig <- fig %>% layout(title = "Stats for passes of top 10 players",
+         xaxis = list(title = ""),
+         yaxis = list(title = "Passes"))
+
+fig
 
 ```
 
 ### Pie chart
 
 ```{r}
-passes <-read.csv("passes1.csv")
+#passes <-read.csv("passes1.csv")
 #w <-read.csv("passes_wins.csv")
 #piepercent<- round(100*w$Passes/sum(w$Passes), 1)
 
@@ -315,11 +331,24 @@ passes <-read.csv("passes1.csv")
 
 
 
-w <-read.csv("passes_wins.csv")
-piepercent<- round(100*w$Passes/sum(w$Passes), 1)
+#piepercent<- round(100*w$Passes/sum(w$Passes), 1)
 #pie(w$Fouls, labels = piepercent, main = "Total fouls by each club in percentage",col = rainbow(10))
-pie(w$Passes,labels =piepercent,col=rainbow(10),main="Total passes by each club")
-legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+#pie(w$Passes,labels =piepercent,col=rainbow(10),main="Total passes by each club")
+#legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+library(plotly)
+w <-read.csv("passes_wins.csv")
+
+w<- data.frame("Clubs"=rownames(w), w)
+
+data <- w[,c('Club', 'Passes')]
+
+fig <- plot_ly(data, labels = ~Club, values = ~Passes, type = 'pie')
+
+fig <- fig %>% layout(title = 'Stats for passes of top 10 teams',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
 
 ```
 
@@ -376,38 +405,70 @@ Column {.tabset .tabset-fade data-width=600}
 
 ```{r}
 
+#assists <-read.csv("assists1.csv")
+
+
+#midpts<-barplot(assists$Stat,ylab="Total assists",col=rgb(0.8,0.1,0.1,0.6),main="Stats for Assists",cex.names = 0.8,las = 2,ylim = c(0, 20))
+
+#grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
+
+#text(assists$Player,
+ #    x = midpts,
+  #   offset = -0.1,
+   #  y = -1,
+    # cex = 0.8,
+     #srt = 40,
+     #xpd = TRUE,
+     #pos = 2 )
+
+
+library(plotly)
 assists <-read.csv("assists1.csv")
+fig <- plot_ly(
+  x = c(assists$Player),
+  y = c(assists$Stat),
+  name = "SF Zoo",
+  type = "bar"
+  
+)
 
+fig <- fig %>% layout(title = "Stats for assits of top 10 players",
+         xaxis = list(title = ""),
+         yaxis = list(title = "Assists"))
 
-midpts<-barplot(assists$Stat,ylab="Total assists",col=rgb(0.8,0.1,0.1,0.6),main="Stats for Assists",cex.names = 0.8,las = 2,ylim = c(0, 20))
-
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-
-text(assists$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
+fig
 
 ```
 
 ### Scatter Plot
 
 ```{r}
+#w <-read.csv("assists_wins.csv")
+#plot(w$Assists,
+ #    w$Goals,
+  #   main="Comparing Goals and Assists",
+   #  xlab="Assists",
+    # ylab="Goals",
+     #pch=19,
+     #cex=w$Wins/9,
+     #cex.axis=1.5,
+     #col=rainbow(10))
+#legend("bottomright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+
+library(plotly)
 w <-read.csv("assists_wins.csv")
-plot(w$Assists,
-     w$Goals,
-     main="Comparing Goals and Assists",
-     xlab="Assists",
-     ylab="Goals",
-     pch=19,
-     cex=w$Wins/9,
-     cex.axis=1.5,
-     col=rainbow(10))
-legend("bottomright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+d <- w[sample(nrow(w), 10), ]
+
+
+fig <- plot_ly(
+        d, x = ~Assists, y = ~Goals,
+        # Hover text:
+        text = ~paste("Team: ", Club, '<br>Assists:', Assists,'<br>Wins:', Wins),
+        color = ~Assists, size = ~Wins
+)
+fig <- fig %>% layout(title = "Goals Vs Assists")
+
+fig
 
 ```
 
@@ -464,54 +525,105 @@ Column {.tabset .tabset-fade data-width=600}
 
 ```{r}
 
+#fouls <-read.csv("fouls1.csv")
+
+
+#midpts<-barplot(fouls$Stat,ylab="Total fouls",col=rgb(0.8,0.1,0.1,0.6),main="Stats for fouls",cex.names = 0.8,las = 2,ylim = c(0, 100))
+
+#grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
+
+#text(fouls$Player,
+ #    x = midpts,
+  #   offset = -0.1,
+   #  y = -1,
+    # cex = 0.8,
+     #srt = 40,
+     #xpd = TRUE,
+     #pos = 2 )
+
+library(plotly)
 fouls <-read.csv("fouls1.csv")
+fig <- plot_ly(
+  x = c(fouls$Player),
+  y = c(fouls$Stat),
+  name = "SF Zoo",
+  type = "bar"
+  
+)
 
+fig <- fig %>% layout(title = "Stats for fouls of top 10 players",
+         xaxis = list(title = ""),
+         yaxis = list(title = "Fouls"))
 
-midpts<-barplot(fouls$Stat,ylab="Total fouls",col=rgb(0.8,0.1,0.1,0.6),main="Stats for fouls",cex.names = 0.8,las = 2,ylim = c(0, 100))
-
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-
-text(fouls$Player,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
+fig
 
 ```
 
 ### Stacked Bar chart
 
 ```{r}
-w <-read.csv("fouls_cards.csv")
-colors = c("red","yellow")
-cards <- c("Red","Yellow")
-Values <- matrix(c(2,1,3,1,5,7,6,1,3,8,5,3,1,2,8,7,4,8,7,9), nrow = 2, ncol = 10, byrow = TRUE)
-barplot(Values, main = "Distribution of red and yellow cards", ylab = "Cards", col = colors,ylim = c(0,20))
-grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
-text(w$Club,
-     x = midpts,
-     offset = -0.1,
-     y = -1,
-     cex = 0.8,
-     srt = 40,
-     xpd = TRUE,
-     pos = 2 )
+#w <-read.csv("fouls_cards.csv")
+#colors = c("red","yellow")
+#cards <- c("Red","Yellow")
+#Values <- matrix(c(2,1,3,1,5,7,6,1,3,8,5,3,1,2,8,7,4,8,7,9), nrow = 2, ncol = 10, byrow = TRUE)
+#barplot(Values, main = "Distribution of red and yellow cards", ylab = "Cards", col = colors,ylim = c(0,20))
+#grid(nx = NA, ny = NULL, lwd = 1, lty = 1, col = "gray")
+#text(w$Club,
+    # x = midpts,
+     #offset = -0.1,
+     #y = -1,
+     #cex = 0.8,
+     #srt = 40,
+     #xpd = TRUE,
+     #pos = 2 )
 
-legend("topleft", cards, cex = 1, fill = colors)
+#legend("topleft", cards, cex = 1, fill = colors)
+
+
+library(plotly)
+
+x <- c(w$Club)
+y1 <- c(w$Red.Cards)
+y2 <- c(w$Yellow.Cards)
+data <- data.frame(x, y1, y2)
+
+#The default order will be alphabetized unless specified as below:
+data$x <- factor(data$x, levels = data[["x"]])
+
+fig <- plot_ly(data, x = ~x, y = ~y1, type = 'bar', name = 'Red Cards', marker = list(color = 'red'))
+fig <- fig %>% add_trace(y = ~y2, name = 'Yellow Cards', marker = list(color = 'yellow'))
+fig <- fig %>% layout(xaxis = list(title = "Comparing red and yellow cards of top 10 teams", tickangle = -45),
+         yaxis = list(title = "Number of cards"),
+         margin = list(b = 100),
+         barmode = 'group')
+
+fig
 
 ```
 
 ### Pie Chart
 
 ```{r}
-fouls <-read.csv("fouls1.csv")
-w <-read.csv("fouls_cards.csv")
-piepercent<- round(100*w$Fouls/sum(w$Fouls), 1)
-pie(w$Fouls, labels = piepercent, main = "Total fouls by each club in percentage",col = rainbow(10))
+#fouls <-read.csv("fouls1.csv")
+#w <-read.csv("fouls_cards.csv")
+#piepercent<- round(100*w$Fouls/sum(w$Fouls), 1)
+#pie(w$Fouls, labels = piepercent, main = "Total fouls by each club in percentage",col = rainbow(10))
 
-legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+#legend("topright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+
+library(plotly)
+
+
+w<- data.frame("Clubs"=rownames(w), w)
+
+data <- w[,c('Club', 'Fouls')]
+
+fig <- plot_ly(data, labels = ~Club, values = ~Fouls, type = 'pie')
+
+fig <- fig %>% layout(title = 'Stats for fouls',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
 
 ```

@@ -91,3 +91,32 @@ pie(x, labels = piepercent, main = "Revenue generated in USD",col = rainbow(leng
 
 
 legend("topright", legend = names, cex = 0.8,fill = rainbow(length(x)))
+
+
+
+
+
+w <-read.csv("assists_wins.csv")
+plot(w$Assists,
+     w$Goals,
+     main="Comparing Goals and Assists",
+     xlab="Assists",
+     ylab="Goals",
+     pch=19,
+     cex=w$Wins/9,
+     cex.axis=1.5,
+     col=rainbow(10))
+legend("bottomright", legend =w$Club, cex = 0.6,fill = rainbow(10))
+library(plotly)
+w <-read.csv("assists_wins.csv")
+d <- w[sample(nrow(w), 10), ]
+
+
+fig <- plot_ly(
+        d, x = ~Assists, y = ~Goals,
+        # Hover text:
+        text = ~paste("Team: ", Club, '<br>Assists:', Assists,'<br>Wins:', Wins),
+        color = ~Assists, size = ~Wins
+)
+
+fig
